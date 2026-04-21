@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IP & History — PromptFlow™</title>
+<meta name="description" content="PromptFlow™ is a trademark of PromptFlow Technologies LLC. USPTO Notice of Allowance. Priority date May 29, 2023. US Patent Application 18/677,796." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink: #1a1612;
+  --ink-soft: #3d3832;
+  --ink-mute: #7a736a;
+  --paper: #faf7f2;
+  --paper-warm: #f3ede3;
+  --line: #d9cfbe;
+  --accent: #b8502e;
+  --accent-soft: #d97550;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+nav .logo {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+nav .logo sup { font-size: 0.55em; font-weight: 400; vertical-align: super; margin-left: 2px; }
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+}
+nav ul a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: color 0.2s ease;
+}
+nav ul a:hover { color: var(--accent); }
+nav ul a.current { color: var(--accent); }
+
+/* Page header */
+.page-header {
+  padding: 11rem 3rem 5rem;
+  border-bottom: 1px solid var(--line);
+}
+.page-header .container { max-width: 1100px; margin: 0 auto; }
+.page-header .meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.page-header h1 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 18ch;
+  margin-bottom: 2rem;
+}
+.page-header h1 em { font-style: italic; color: var(--accent); font-weight: 400; }
+.page-header .lede {
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+  max-width: 60ch;
+  line-height: 1.55;
+}
+
+main { padding: 5rem 3rem 8rem; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+/* Timeline */
+.timeline {
+  margin-bottom: 6rem;
+  position: relative;
+}
+.timeline h2 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 3rem;
+  max-width: 28ch;
+}
+.timeline h2 em { font-style: italic; color: var(--accent); }
+
+.event {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+}
+.event:last-child { border-bottom: 1px solid var(--line); }
+.event-date {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-mute);
+  padding-top: 0.2rem;
+}
+.event-date strong {
+  display: block;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  font-size: 0.82rem;
+}
+.event-content h3 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.8rem;
+  line-height: 1.15;
+}
+.event-content p {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 65ch;
+}
+.event-content p + p { margin-top: 1rem; }
+.event.highlight .event-content h3 { color: var(--accent); }
+.event.highlight {
+  background: linear-gradient(to right, rgba(184, 80, 46, 0.04), transparent);
+  margin: 0 -1.5rem;
+  padding: 2rem 1.5rem;
+  border-radius: 2px;
+}
+.verify-link {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(184, 80, 46, 0.35);
+  transition: border-color 0.2s ease;
+  letter-spacing: 0.02em;
+}
+.verify-link:hover {
+  border-bottom-color: var(--accent);
+}
+
+/* Trademark details card */
+.tm-card {
+  background: var(--paper-warm);
+  border: 1px solid var(--line);
+  padding: 3rem;
+  margin-bottom: 6rem;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 3rem;
+}
+.tm-card-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.tm-card h3 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: 2.2rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+.tm-card h3 sup { font-size: 0.4em; vertical-align: super; font-weight: 400; margin-left: 2px; }
+.tm-card .lede {
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+.tm-classes { display: flex; flex-direction: column; gap: 1.5rem; }
+.tm-class h4 {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+.tm-class p {
+  color: var(--ink);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+/* Differentiators */
+.diff-section h2 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+  max-width: 26ch;
+}
+.diff-section h2 em { font-style: italic; color: var(--accent); }
+.diff-section > .lede {
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  max-width: 60ch;
+  margin-bottom: 4rem;
+}
+.diff-grid {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.diff-item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 3rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.diff-num {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: 2.8rem;
+  line-height: 1;
+  color: var(--accent);
+  font-style: italic;
+}
+.diff-content h3 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.9rem;
+  line-height: 1.2;
+  max-width: 40ch;
+}
+.diff-content p {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+/* Legal / contact block */
+.legal-block {
+  margin-top: 6rem;
+  padding: 3rem;
+  border: 1px solid var(--line);
+  background: var(--paper-warm);
+}
+.legal-block h3 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 1.4rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+.legal-block p {
+  color: var(--ink-soft);
+  line-height: 1.6;
+  max-width: 65ch;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+.legal-block p:last-child { margin-bottom: 0; }
+.legal-block a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(184, 80, 46, 0.3); }
+.legal-block a:hover { border-bottom-color: var(--accent); }
+
+/* Footer */
+footer {
+  background: var(--ink);
+  color: rgba(250, 247, 242, 0.7);
+  padding: 3rem;
+  text-align: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+footer a { color: var(--accent-soft); text-decoration: none; }
+
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  nav ul { gap: 1.4rem; }
+  nav ul a { font-size: 0.85rem; }
+  .page-header { padding: 9rem 1.5rem 4rem; }
+  main { padding: 4rem 1.5rem 6rem; }
+  .event { grid-template-columns: 1fr; gap: 0.8rem; padding: 2rem 0; }
+  .event.highlight { margin: 0; padding: 2rem 0; background: none; }
+  .event-date { padding-top: 0; }
+  .tm-card { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.5rem; }
+  .tm-card h3 { font-size: 1.8rem; }
+  .diff-item { grid-template-columns: 1fr; gap: 0.8rem; padding: 2rem 0; }
+  .diff-num { font-size: 2.2rem; }
+  .legal-block { padding: 2rem 1.5rem; }
+  footer { padding: 2rem 1.5rem; font-size: 0.65rem; }
+}
+@media (max-width: 620px) {
+  nav { padding: 0.9rem 1.2rem; }
+  nav ul { gap: 1rem; }
+  nav ul a { font-size: 0.8rem; }
+  nav ul li:nth-child(1),
+  nav ul li:nth-child(2),
+  nav ul li:nth-child(3) { display: none; }
+  .page-header { padding: 7rem 1.2rem 3rem; }
+  .page-header h1 { font-size: 2.2rem; }
+  main { padding: 3rem 1.2rem 5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">PromptFlow<sup>™</sup></a>
+  <ul>
+    <li><a href="/#what">What it is</a></li>
+    <li><a href="/#ecosystem">Ecosystem</a></li>
+    <li><a href="/#validated">Validated</a></li>
+    <li><a href="/ip.html" class="current">IP</a></li>
+    <li><a href="https://github.com/promptflow/promptflow">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="container">
+    <div class="meta">IP &amp; history</div>
+    <h1>A documented <em>priority position</em> that predates the ecosystem it federates.</h1>
+    <p class="lede">
+      The PromptFlow™ System was documented and filed before MCP, before most agent frameworks existed, and before the composable-AI pattern became industry consensus. This page records the history of the mark and the patent — what exists, when it was filed, and what makes the system wholly different from anything else in the space.
+    </p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- TIMELINE -->
+    <section class="timeline">
+      <h2>Priority timeline for the <em>PromptFlow™ System</em>.</h2>
+
+      <div class="event highlight">
+        <div class="event-date">
+          <strong>May 29, 2023</strong>
+          Provisional patent
+        </div>
+        <div class="event-content">
+          <h3>Provisional patent application 63/504,767 filed.</h3>
+          <p>
+            This provisional established priority for the system architecture: the interpreter for managing execution of code/prompt processes, the knowledge graph of reusable processes, embedding-based retrieval for composition, runtime-statistics-based process selection, and the monetization framework for re-used processes.
+          </p>
+          <p>
+            This priority date is the anchor for all subsequent claims.
+          </p>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date">
+          <strong>Feb 16, 2024</strong>
+          Continuation
+        </div>
+        <div class="event-content">
+          <h3>Second provisional application 63/554,642 filed.</h3>
+          <p>
+            Extended and clarified the original claims, refining the specification of the knowledge graph structure, embedding-based composition mechanism, and settlement flows for multi-party executions.
+          </p>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date">
+          <strong>May 2024</strong>
+          Non-provisional
+        </div>
+        <div class="event-content">
+          <h3>Non-provisional US Application 18/677,796 filed.</h3>
+          <p>
+            Published as US20240403005A1. Currently under examination. Covers the full system architecture, including the interpreter's role in orchestrating execution, the typed composition interfaces, and the monetization graph.
+          </p>
+          <p>
+            <a href="https://patents.google.com/patent/US20240403005A1/en?inventor=Tyler&assignee=friddle&oq=Tyler+friddle" target="_blank" rel="noopener" class="verify-link">View the published patent on Google Patents ↗</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="event highlight">
+        <div class="event-date">
+          <strong>2025</strong>
+          Notice of Allowance
+        </div>
+        <div class="event-content">
+          <h3>USPTO Notice of Allowance on the PromptFlow™ mark.</h3>
+          <p>
+            The United States Patent and Trademark Office issued a Notice of Allowance for the PromptFlow trademark, covering downloadable computer software featuring a programming language for prompting neural networks (IC 009) and the corresponding online non-downloadable software (IC 042). Use-in-commerce specimen filing follows.
+          </p>
+          <p>
+            <a href="https://tsdr.uspto.gov/#caseNumber=97913988&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch" target="_blank" rel="noopener" class="verify-link">View status on USPTO TSDR (case 97913988) ↗</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="event-date">
+          <strong>Nov 2024</strong>
+          For context
+        </div>
+        <div class="event-content">
+          <h3>Anthropic introduces the Model Context Protocol — 18 months after the priority date.</h3>
+          <p>
+            The MCP protocol — now the de facto AI integration standard adopted across OpenAI, Google DeepMind, and Microsoft — emerged substantially after the PromptFlow™ System's claims were filed. The broader agent-framework and tool-composition patterns the industry has since converged on also emerged in this window.
+          </p>
+          <p>
+            PromptFlow™ is not a response to these developments. It's an independent architecture documented before the ecosystem existed, and the trust/settlement/composition layer that the ecosystem still doesn't have.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TRADEMARK DETAILS CARD -->
+    <section>
+      <div class="tm-card">
+        <div>
+          <div class="tm-card-label">Trademark</div>
+          <h3>PromptFlow<sup>™</sup></h3>
+          <p class="lede">
+            PromptFlow™ is a trademark of PromptFlow Technologies LLC, covering the following goods and services per the USPTO Notice of Allowance:
+          </p>
+        </div>
+        <div class="tm-classes">
+          <div class="tm-class">
+            <h4>IC 009 — Downloadable software</h4>
+            <p>
+              Downloadable computer software featuring a programming language for prompting neural networks; computer software files in the nature of downloadable electronic data files featuring programming data in the field of AI.
+            </p>
+          </div>
+          <div class="tm-class">
+            <h4>IC 042 — SaaS / online software</h4>
+            <p>
+              Providing online non-downloadable computer software featuring a programming language for prompting neural networks; computer software files in the nature of online non-downloadable electronic data files featuring programming data in the field of AI.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIFFERENTIATORS -->
+    <section class="diff-section">
+      <h2>What makes the PromptFlow™ System <em>wholly different</em>.</h2>
+      <p class="lede">
+        The PromptFlow™ System is not another workflow tool, orchestration framework, or integration protocol. It is structurally and functionally distinct from anything else in the space. Five properties define what's different:
+      </p>
+
+      <div class="diff-grid">
+        <div class="diff-item">
+          <div class="diff-num">01</div>
+          <div class="diff-content">
+            <h3>It does not compete with the tools it federates.</h3>
+            <p>
+              MCP servers, n8n workflows, LangChain agents, hosted models — these are the substrate PromptFlow™ sits on top of, not competitors to it. The PromptFlow™ System is the measurement, composition, and settlement layer above them. Other AI tools are peers participating in the graph.
+            </p>
+          </div>
+        </div>
+
+        <div class="diff-item">
+          <div class="diff-num">02</div>
+          <div class="diff-content">
+            <h3>Every execution produces evidence.</h3>
+            <p>
+              The graph stores measured outcomes from real executions, not claims about capabilities. Rankings are computed from evidence — completion rate, cost, latency, schema conformance, audit verdicts. Every capability accumulates a quantified track record that users and other capabilities can route against.
+            </p>
+          </div>
+        </div>
+
+        <div class="diff-item">
+          <div class="diff-num">03</div>
+          <div class="diff-content">
+            <h3>Compositions earn money for everyone involved.</h3>
+            <p>
+              When a process executes, every contributor whose work was used — the composer, sub-process authors, MCP operators, eval case authors, auditors — receives a share proportional to contribution. Most AI tools monetize the platform operator; the PromptFlow™ System monetizes the graph's contributors.
+            </p>
+          </div>
+        </div>
+
+        <div class="diff-item">
+          <div class="diff-num">04</div>
+          <div class="diff-content">
+            <h3>The graph simplifies itself as models improve.</h3>
+            <p>
+              When a new model can do in one call what previously required a multi-step composition, the older path becomes alternate rather than default. Complexity sheds automatically as underlying models strengthen. This simplification mechanism — described in the original patent claims and validated empirically — is unique to the PromptFlow™ System.
+            </p>
+          </div>
+        </div>
+
+        <div class="diff-item">
+          <div class="diff-num">05</div>
+          <div class="diff-content">
+            <h3>Open specification, protected system.</h3>
+            <p>
+              The <code>.promptflow</code> file format and the specification are CC-BY-4.0. Reference implementations are MIT-licensed. The trademark and the underlying system architecture are protected. This combination is deliberate: the specification is meant to federate openly; the protection is meant to prevent any single actor from capturing the graph.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEGAL BLOCK -->
+    <section>
+      <div class="legal-block">
+        <h3>Trademark use &amp; licensing</h3>
+        <p>
+          PromptFlow™ and the <code>.promptflow</code> file extension are trademarks of PromptFlow Technologies LLC. Use of the PromptFlow™ mark in commercial products requires a trademark license from PromptFlow Technologies LLC. Open-source implementations of the specification that do not use the PromptFlow™ name require no trademark license.
+        </p>
+        <p>
+          Upon patent grant, a royalty-free patent license for open-source implementations of the specification will be published. The IP is structured to encourage adoption and federation, not to gate them.
+        </p>
+        <p>
+          For trademark licensing, partnerships, or IP inquiries: <a href="mailto:legal@promptflowtechnologies.com">legal@promptflowtechnologies.com</a>.
+        </p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  © PromptFlow Technologies LLC · 2026 · PromptFlow<sup>™</sup> · USPTO Notice of Allowance · <a href="/">Home</a>
+</footer>
+
+</body>
+</html>

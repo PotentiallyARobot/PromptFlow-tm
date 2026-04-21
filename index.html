@@ -1,15 +1,1268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PromptFlow™ — AI Workflows That Actually Improve Your Life</title>
-  <meta name="description" content="PromptFlow™ is downloadable computer software featuring a programming language for prompting neural networks. Browse, run, and download .pflow software files that chain multiple AI models, tools, and MCP servers to solve real problems.">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%234A7BDB'/><text x='16' y='23' text-anchor='middle' font-size='20'>⚡</text></svg>">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PromptFlow™ — A verifiable trust layer for AI workflows</title>
+<meta name="description" content="The PromptFlow™ System is a transparency and trust layer for AI workflows, tools, agents, and orchestration frameworks — providing a persistent re-usable process layer that evolves along with the underlying models in a federated remunerative ecosystem." />
+<meta property="og:title" content="PromptFlow™ — A verifiable trust layer for AI workflows" />
+<meta property="og:description" content="Federated, evidence-based, contributor-monetized. Open specification, protected system." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+<style>
+:root {
+  --ink: #1a1612;
+  --ink-soft: #3d3832;
+  --ink-mute: #7a736a;
+  --paper: #faf7f2;
+  --paper-warm: #f3ede3;
+  --line: #d9cfbe;
+  --accent: #b8502e;
+  --accent-soft: #d97550;
+  --accent-ghost: rgba(184, 80, 46, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* -------- NAV -------- */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(250, 247, 242, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+nav.scrolled { border-bottom-color: var(--line); }
+nav .logo {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+nav .logo sup { font-size: 0.55em; font-weight: 400; vertical-align: super; margin-left: 2px; }
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
+}
+nav ul a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+nav ul a:hover { color: var(--accent); }
+
+/* -------- HERO -------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 3rem 7rem;
+  overflow: hidden;
+}
+#graph-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+/* On wider screens, the hero copy sits on the left half, leaving room for animation density on the right */
+@media (min-width: 1100px) {
+  .hero-content { max-width: none; padding-right: 50%; }
+  .hero-content .lede { max-width: 46ch; }
+  .hero-content h1 { max-width: 18ch; }
+}
+/* A soft gradient keeps text readable over the animation */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 0;
+  width: 100%;
+  background: linear-gradient(to right, var(--paper) 0%, rgba(250, 247, 242, 0.94) 35%, rgba(250, 247, 242, 0.4) 60%, transparent 85%);
+  z-index: 1;
+  pointer-events: none;
+}
+/* Below 1100px the copy stretches full width, so the animation needs to be much softer */
+@media (max-width: 1099px) {
+  #graph-canvas { opacity: 0.35; }
+  .hero::before {
+    background: linear-gradient(to bottom, rgba(250, 247, 242, 0.92) 0%, rgba(250, 247, 242, 0.82) 50%, rgba(250, 247, 242, 0.92) 100%);
+  }
+}
+@media (max-width: 700px) {
+  #graph-canvas { opacity: 0.22; }
+}
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6.2vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin-bottom: 1.8rem;
+  max-width: 20ch;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.hero .lede {
+  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
+  color: var(--ink-soft);
+  max-width: 58ch;
+  margin-bottom: 3rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.hero .lede strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+.hero-ctas {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  font-family: 'Geist', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn-primary:hover { background: var(--accent); }
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-secondary:hover { border-color: var(--ink); }
+.btn .arrow {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.btn:hover .arrow { transform: translateX(3px); }
+
+.hero-status {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 3rem;
+  right: 3rem;
+  display: flex;
+  gap: 1.2rem 2.2rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  z-index: 3;
+  flex-wrap: wrap;
+}
+.hero-status span { display: inline-flex; gap: 0.5rem; align-items: center; }
+.hero-status a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid transparent;
+}
+.hero-status a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.hero-status .dot {
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+/* -------- SECTIONS -------- */
+section { padding: 8rem 3rem; position: relative; }
+.container { max-width: 1100px; margin: 0 auto; }
+
+.section-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+  margin-bottom: 2rem;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+.section-lede {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  line-height: 1.55;
+  margin-bottom: 4rem;
+}
+
+/* -------- WHAT SITS IN THE GRAPH -------- */
+.provides { background: var(--paper-warm); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.provides-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+.provides-grid > div {
+  padding: 3rem 2.5rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  position: relative;
+}
+.provides-grid .num {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+.provides-grid h3 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.01em;
+}
+.provides-grid p {
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* -------- ECOSYSTEM -------- */
+.ecosystem-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 3rem;
+}
+.ecosystem-list > div {
+  background: var(--paper);
+  padding: 2rem 1.8rem;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.ecosystem-list h4 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.6rem;
+}
+.ecosystem-list p {
+  font-size: 0.88rem;
+  color: var(--ink-mute);
+  line-height: 1.5;
+}
+.ecosystem-list .kind {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: auto;
+}
+
+/* -------- VALIDATED -------- */
+.validated {
+  background: var(--ink);
+  color: var(--paper);
+}
+.validated .section-title { color: var(--paper); }
+.validated .section-title em { color: var(--accent-soft); }
+.validated .section-lede { color: rgba(250, 247, 242, 0.72); }
+.validated .section-meta { color: var(--accent-soft); }
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(250, 247, 242, 0.12);
+}
+.metric .value {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: 3.2rem;
+  line-height: 1;
+  color: var(--paper);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.02em;
+}
+.metric .value em { color: var(--accent-soft); font-style: normal; }
+.metric .label {
+  font-size: 0.9rem;
+  color: rgba(250, 247, 242, 0.65);
+  line-height: 1.4;
+}
+
+/* -------- CTA -------- */
+.final-cta {
+  padding: 10rem 3rem;
+  text-align: center;
+}
+.final-cta h2 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+  margin: 0 auto 2rem;
+}
+.final-cta h2 em { font-style: italic; color: var(--accent); }
+.final-cta .cta-ctas {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+
+/* -------- FOOTER -------- */
+footer {
+  background: var(--paper-warm);
+  border-top: 1px solid var(--line);
+  padding: 4rem 3rem 3rem;
+}
+.footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+.footer-grid h5 {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-mute);
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+}
+.footer-grid ul { list-style: none; }
+.footer-grid li { margin-bottom: 0.7rem; }
+.footer-grid a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+.footer-grid a:hover { color: var(--accent); }
+.footer-brand h3 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 500;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+.footer-brand h3 sup { font-size: 0.55em; font-weight: 400; vertical-align: super; margin-left: 2px; }
+.footer-brand p {
+  color: var(--ink-mute);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  max-width: 32ch;
+}
+.footer-legal {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* -------- RESPONSIVE -------- */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  nav ul { gap: 1.4rem; }
+  nav ul a { font-size: 0.85rem; }
+  .hero { padding: 7rem 1.5rem 6rem; min-height: calc(100vh - 1rem); }
+  .hero-status {
+    position: static;
+    margin-top: 3rem;
+    left: auto; right: auto; bottom: auto;
+    font-size: 0.66rem;
+    gap: 0.9rem 1.6rem;
+  }
+  section { padding: 5rem 1.5rem; }
+  .provides-grid { grid-template-columns: 1fr; }
+  .ecosystem-list { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: repeat(2, 1fr); gap: 2rem 1.5rem; }
+  .metric .value { font-size: 2.5rem; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .final-cta { padding: 6rem 1.5rem; }
+}
+@media (max-width: 620px) {
+  nav { padding: 0.9rem 1.2rem; }
+  nav ul { gap: 1rem; }
+  nav ul a { font-size: 0.8rem; }
+  /* Hide less-critical nav items on narrow mobile */
+  nav ul li:nth-child(1),
+  nav ul li:nth-child(2),
+  nav ul li:nth-child(3) { display: none; }
+  .hero { padding: 6rem 1.2rem 5rem; }
+  .hero-ctas { flex-direction: column; align-items: stretch; }
+  .hero-ctas .btn { justify-content: center; width: 100%; }
+  .metrics { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-legal { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 400px) {
+  .hero h1 { font-size: 2.2rem; }
+  .hero .lede { font-size: 1rem; }
+  section { padding: 4rem 1.2rem; }
+  .metric .value { font-size: 2rem; }
+  .metrics { grid-template-columns: 1fr; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #graph-canvas { opacity: 0.2; }
+}
+</style>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="app.js"></script>
+
+<nav id="nav">
+  <a href="/" class="logo">PromptFlow<sup>™</sup></a>
+  <ul>
+    <li><a href="#what">What it is</a></li>
+    <li><a href="#ecosystem">Ecosystem</a></li>
+    <li><a href="#validated">Validated</a></li>
+    <li><a href="/ip.html">IP</a></li>
+    <li><a href="https://github.com/promptflow/promptflow">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <svg id="graph-canvas" aria-hidden="true"></svg>
+  <div class="hero-content">
+    <h1>A verifiable trust layer for <em>AI workflows, tools, agents</em>, and orchestration frameworks.</h1>
+    <p class="lede">
+      The PromptFlow™ System is a <strong>persistent re-usable process layer</strong> that evolves along with the underlying models in a <strong>federated remunerative ecosystem</strong>. It sits above MCP servers, n8n workflows, LangChain agents, hosted models, and custom pipelines — providing what they individually lack.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/promptflow/promptflow" class="btn btn-primary">Read the specification <span class="arrow">→</span></a>
+      <a href="#validated" class="btn btn-secondary">See the evidence <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="hero-status">
+    <span><span class="dot"></span>Specification v0.2 · federation extensions</span>
+    <span><a href="https://tsdr.uspto.gov/#caseNumber=97913988&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch" target="_blank" rel="noopener">Trademark · USPTO 97913988 ↗</a></span>
+    <span><a href="https://patents.google.com/patent/US20240403005A1/en?inventor=Tyler&assignee=friddle&oq=Tyler+friddle" target="_blank" rel="noopener">Patent · US 18/677,796 ↗</a></span>
+  </div>
+</header>
+
+<!-- WHAT IT PROVIDES -->
+<section id="what" class="provides">
+  <div class="container">
+    <div class="section-meta">01 / What it provides</div>
+    <h2 class="section-title">Four things the ecosystem is <em>missing</em>.</h2>
+    <p class="section-lede">
+      Every AI framework claims to solve the same problems. The PromptFlow™ System doesn't compete with them — it measures them. It's the infrastructure above the substrate that makes federation actually work.
+    </p>
+    <div class="provides-grid">
+      <div>
+        <span class="num">01</span>
+        <h3>A way to distinguish which paths actually achieve an outcome under which constraints.</h3>
+        <p>Every execution produces evidence — completion rate, cost, latency, schema conformance, audit verdicts. The graph doesn't trust claims; it trusts measurement.</p>
+      </div>
+      <div>
+        <span class="num">02</span>
+        <h3>A way to compose new capabilities rapidly from existing ones.</h3>
+        <p>Once every capability has a typed interface and measured behavior, building a new one becomes picking the right nodes and wiring them — not writing glue code.</p>
+      </div>
+      <div>
+        <span class="num">03</span>
+        <h3>A mechanism for reducing process complexity as the underlying models improve.</h3>
+        <p>When a new model can do in one call what previously took five steps, the older path becomes alternate. Complexity sheds automatically. This mechanism is unique to the PromptFlow™ System.</p>
+      </div>
+      <div>
+        <span class="num">04</span>
+        <h3>A settlement system that pays contributors when their work is used.</h3>
+        <p>Every execution pays every party whose work contributed — the composer, the sub-process authors, the MCP operators, the eval contributors, the auditors. Proportional to contribution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM -->
+<section id="ecosystem">
+  <div class="container">
+    <div class="section-meta">02 / What sits in the graph</div>
+    <h2 class="section-title">Anything that performs AI work becomes a <em>node</em>.</h2>
+    <p class="section-lede">
+      The graph is agnostic about implementation. MCP servers, n8n workflows, agents, hosted models, `.promptflow` files, and typed HTTP services all become addressable capabilities with the same interface, the same verification, and the same settlement treatment.
+    </p>
+    <div class="ecosystem-list">
+      <div>
+        <span class="kind">MCP servers</span>
+        <h4>Tools auto-discovered</h4>
+        <p>Tools surfaced via <code>tools/list</code>, registered as capability nodes. Every operator gains discovery and revenue.</p>
+      </div>
+      <div>
+        <span class="kind">n8n workflows</span>
+        <h4>Webhook-triggered</h4>
+        <p>Workflows with declared I/O schemas become composable capabilities. Creators gain distribution and monetization.</p>
+      </div>
+      <div>
+        <span class="kind">Agents</span>
+        <h4>Framework-agnostic</h4>
+        <p>LangChain, AutoGen, CrewAI, or custom — any agent with an addressable endpoint. Framework choice is invisible to the graph.</p>
+      </div>
+      <div>
+        <span class="kind">Hosted models</span>
+        <h4>Metered pass-through</h4>
+        <p>Anthropic, OpenAI, Google, open-source — every model API is a provider type. Calls pass through at cost; settlement is metered.</p>
+      </div>
+      <div>
+        <span class="kind">.promptflow files</span>
+        <h4>Typed compositions</h4>
+        <p>Authored files that compose any of the above. The universal contributor path — anyone can build one without infrastructure.</p>
+      </div>
+      <div>
+        <span class="kind">HTTP services</span>
+        <h4>Typed endpoints</h4>
+        <p>Generic endpoints with request/response schemas. If it's accessible and typed, it composes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALIDATED -->
+<section id="validated" class="validated">
+  <div class="container">
+    <div class="section-meta">03 / Empirical validation</div>
+    <h2 class="section-title">The design isn't just described — it's <em>validated</em>.</h2>
+    <p class="section-lede">
+      Six load-bearing mechanisms validated end-to-end in a reproducible simulation with real LLM decisions: distinctness classification, autonomous graph growth via composition, ranking convergence, spot flips, simplification when newer implementations dominate older ones, and multi-party settlement with lineage royalties.
+    </p>
+    <div class="metrics">
+      <div class="metric">
+        <div class="value"><em>6</em>/6</div>
+        <div class="label">Load-bearing mechanisms validated end-to-end</div>
+      </div>
+      <div class="metric">
+        <div class="value"><em>30</em></div>
+        <div class="label">New capabilities autonomously composed by LLM users</div>
+      </div>
+      <div class="metric">
+        <div class="value"><em>307</em></div>
+        <div class="label">Settlement entries across 12 contributors in single run</div>
+      </div>
+      <div class="metric">
+        <div class="value"><em>$0.60</em></div>
+        <div class="label">Total cost of the full reproducible simulation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>The future of AI work is <em>federated</em>. The trust layer is what makes it work.</h2>
+    <p class="section-lede" style="max-width: 52ch; margin: 0 auto; text-align: center;">
+      The specification is open. The reference implementations are MIT. The trademark and system are protected. The graph is meant to be owned by the people who build it.
+    </p>
+    <div class="cta-ctas">
+      <a href="https://github.com/promptflow/promptflow" class="btn btn-primary">Read the specification <span class="arrow">→</span></a>
+      <a href="https://play.promptflowtechnologies.com" class="btn btn-secondary">Try the playground <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>PromptFlow<sup>™</sup></h3>
+      <p>A verifiable trust layer for AI workflows, tools, agents, and orchestration frameworks. Open specification, federated graph, protected system.</p>
+    </div>
+    <div>
+      <h5>Specification</h5>
+      <ul>
+        <li><a href="https://github.com/promptflow/promptflow">GitHub repository</a></li>
+        <li><a href="https://github.com/promptflow/promptflow/blob/main/spec/PROMPTFLOW.md">File format spec</a></li>
+        <li><a href="https://github.com/promptflow/promptflow/blob/main/spec/PROVIDERS.md">Providers spec</a></li>
+        <li><a href="https://github.com/promptflow/promptflow/blob/main/docs/VALIDATION.md">Validation results</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Build</h5>
+      <ul>
+        <li><a href="https://play.promptflowtechnologies.com">Playground</a></li>
+        <li><a href="https://github.com/promptflow/promptflow/blob/main/contribute/MCP.md">Register an MCP server</a></li>
+        <li><a href="https://github.com/promptflow/promptflow/blob/main/contribute/PROMPTFLOWS.md">Publish a .promptflow file</a></li>
+        <li><a href="https://github.com/promptflow/promptflow/blob/main/contribute/EVALS.md">Contribute evaluation cases</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <ul>
+        <li><a href="/ip.html">IP &amp; History</a></li>
+        <li><a href="mailto:partners@promptflowtechnologies.com">Partnerships</a></li>
+        <li><a href="mailto:legal@promptflowtechnologies.com">Legal</a></li>
+        <li><a href="mailto:hello@promptflowtechnologies.com">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-legal">
+    <span>© PromptFlow Technologies LLC · 2026</span>
+    <span>PromptFlow™ · USPTO Notice of Allowance · IC 009 / IC 042</span>
+  </div>
+</footer>
+
+<script>
+// Nav scroll behavior
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 10);
+});
+
+/* ========================================================
+   D3 FORCE-DIRECTED GRAPH ANIMATION — dense edition
+   Scripted beats: federate → decompose → compose → rank → simplify → grow → settle
+   Shows the full PromptFlow system: named capabilities, active executions, scores,
+   composition, simplification, growth, and settlement flow.
+   ======================================================== */
+(function() {
+  const svg = d3.select('#graph-canvas');
+  const container = svg.node().parentElement;
+
+  let width = container.clientWidth;
+  let height = container.clientHeight;
+  svg.attr('viewBox', `0 0 ${width} ${height}`);
+
+  const ACCENT = '#b8502e';
+  const ACCENT_SOFT = '#d97550';
+  const INK = '#1a1612';
+  const INK_SOFT = '#3d3832';
+  const MUTE = '#7a736a';
+
+  // On desktop the copy sits on the left half of the hero, so we anchor the dense
+  // graph to the right side. On narrower screens we use the full width.
+  function rightHalfAnchor() { return width >= 1100 ? width * 0.68 : width * 0.5; }
+  function graphRegionWidth() { return width >= 1100 ? width * 0.50 : width * 0.9; }
+
+  // Node types and their preferred cluster centers (relative to graph region)
+  // x is expressed as fraction of graph-region width around the anchor
+  const TYPE_CLUSTERS = {
+    mcp:    { fx: -0.32, fy: -0.30, color: ACCENT },
+    n8n:    { fx:  0.32, fy: -0.32, color: ACCENT },
+    agent:  { fx: -0.35, fy:  0.10, color: ACCENT },
+    model:  { fx:  0.34, fy:  0.12, color: ACCENT },
+    pf:     { fx:  0.00, fy: -0.08, color: ACCENT },
+    intent: { fx: -0.05, fy: -0.50, color: ACCENT },
+  };
+
+  function clusterCenter(type) {
+    const c = TYPE_CLUSTERS[type] || TYPE_CLUSTERS.pf;
+    return {
+      x: rightHalfAnchor() + c.fx * graphRegionWidth(),
+      y: height * 0.5 + c.fy * height * 0.85,
+    };
+  }
+
+  // Starting cast of named capabilities — realistic capability identifiers
+  let nodes = [
+    // MCP servers (tools)
+    { id: 'mcp_fetch_pdf',       type: 'mcp',   label: 'fetch_pdf.mcp',       r: 6 },
+    { id: 'mcp_stripe_api',      type: 'mcp',   label: 'stripe_api.mcp',      r: 6 },
+    { id: 'mcp_vector_search',   type: 'mcp',   label: 'vector_search.mcp',   r: 6 },
+    { id: 'mcp_github_read',     type: 'mcp',   label: 'github_read.mcp',     r: 6 },
+
+    // n8n workflows
+    { id: 'n8n_enrich_lead',     type: 'n8n',   label: 'enrich_lead.n8n',     r: 6 },
+    { id: 'n8n_send_digest',     type: 'n8n',   label: 'send_digest.n8n',     r: 6 },
+    { id: 'n8n_invoice_route',   type: 'n8n',   label: 'invoice_route.n8n',   r: 6 },
+
+    // Agents
+    { id: 'agent_legal',         type: 'agent', label: 'legal_agent',         r: 6 },
+    { id: 'agent_research',      type: 'agent', label: 'research_agent',      r: 6 },
+    { id: 'agent_coder',         type: 'agent', label: 'coder_agent',         r: 6 },
+
+    // Models
+    { id: 'model_haiku',         type: 'model', label: 'claude_haiku',        r: 6 },
+    { id: 'model_sonnet',        type: 'model', label: 'claude_sonnet',       r: 6 },
+    { id: 'model_opus',          type: 'model', label: 'claude_opus',         r: 6 },
+    { id: 'model_gpt',           type: 'model', label: 'gpt_4o',              r: 6 },
+
+    // .promptflow files (compositions)
+    { id: 'pf_extract_invoice',  type: 'pf',    label: 'extract_invoice.promptflow',  r: 7 },
+    { id: 'pf_summarize_legal',  type: 'pf',    label: 'summarize_legal.promptflow',  r: 7 },
+    { id: 'pf_classify_risk',    type: 'pf',    label: 'classify_risk.promptflow',    r: 7 },
+  ];
+
+  // Give each node an initial position near its cluster
+  nodes.forEach(n => {
+    const c = clusterCenter(n.type);
+    n.x = c.x + (Math.random() - 0.5) * 80;
+    n.y = c.y + (Math.random() - 0.5) * 60;
+  });
+
+  let links = [];
+
+  // Initial light connections so the graph doesn't start sparse
+  function addLink(sourceId, targetId, opts = {}) {
+    const exists = links.some(l => {
+      const s = l.source.id || l.source;
+      const t = l.target.id || l.target;
+      return (s === sourceId && t === targetId) || (s === targetId && t === sourceId);
+    });
+    if (exists) return;
+    links.push({
+      source: sourceId, target: targetId,
+      weight: opts.weight || 0.22,
+      active: opts.active || false,
+      decomposition: opts.decomposition || false,
+    });
+  }
+
+  // Pre-existing composition structure
+  addLink('pf_extract_invoice', 'mcp_fetch_pdf', { weight: 0.4 });
+  addLink('pf_extract_invoice', 'model_haiku',   { weight: 0.4 });
+  addLink('pf_summarize_legal', 'agent_legal',   { weight: 0.35 });
+  addLink('pf_summarize_legal', 'model_sonnet',  { weight: 0.35 });
+  addLink('pf_classify_risk',   'model_sonnet',  { weight: 0.3 });
+  addLink('n8n_invoice_route',  'pf_extract_invoice', { weight: 0.25 });
+
+  // Force simulation with clustering per type
+  const simulation = d3.forceSimulation(nodes)
+    .force('charge', d3.forceManyBody().strength(-95))
+    .force('cluster', (alpha) => {
+      nodes.forEach(n => {
+        const c = clusterCenter(n.type);
+        n.vx = (n.vx || 0) + (c.x - n.x) * 0.05 * alpha;
+        n.vy = (n.vy || 0) + (c.y - n.y) * 0.05 * alpha;
+      });
+    })
+    .force('collision', d3.forceCollide().radius(d => d.r + 22))
+    .force('link', d3.forceLink(links).id(d => d.id).distance(90).strength(0.35))
+    .alphaDecay(0.02)
+    .velocityDecay(0.55);
+
+  // Render groups (order matters: links below nodes below labels below annotations)
+  const linkGroup = svg.append('g').attr('class', 'links');
+  const settlementGroup = svg.append('g').attr('class', 'settlements');
+  const nodeGroup = svg.append('g').attr('class', 'nodes');
+  const labelGroup = svg.append('g').attr('class', 'labels');
+  const annotGroup = svg.append('g').attr('class', 'annotations');
+
+  function render() {
+    // Links
+    const link = linkGroup.selectAll('line').data(links, d => {
+      const s = d.source.id || d.source; const t = d.target.id || d.target;
+      return `${s}::${t}`;
+    });
+    link.exit().transition().duration(700).attr('stroke-opacity', 0).remove();
+    link.enter().append('line')
+      .attr('stroke', ACCENT)
+      .attr('stroke-opacity', 0)
+      .attr('stroke-width', 1)
+      .attr('stroke-dasharray', d => d.decomposition ? '3 3' : null)
+      .merge(link)
+      .transition().duration(700)
+      .attr('stroke', d => d.active ? ACCENT : ACCENT)
+      .attr('stroke-opacity', d => d.weight || 0.22)
+      .attr('stroke-width', d => d.active ? 1.8 : (d.faded ? 0.5 : 1))
+      .attr('stroke-dasharray', d => d.decomposition ? '3 3' : null);
+
+    // Nodes
+    const node = nodeGroup.selectAll('circle').data(nodes, d => d.id);
+    node.exit().transition().duration(600).attr('r', 0).attr('opacity', 0).remove();
+    const nodeEnter = node.enter().append('circle')
+      .attr('r', 0)
+      .attr('opacity', 0)
+      .attr('cx', d => d.x)
+      .attr('cy', d => d.y)
+      .attr('stroke', ACCENT)
+      .attr('stroke-width', d => d.type === 'pf' ? 1.6 : 1);
+    nodeEnter.merge(node)
+      .transition().duration(600)
+      .attr('r', d => d.r * (d.highlight ? 1.4 : 1))
+      .attr('opacity', d => d.faded ? 0.25 : (d.highlight ? 1 : 0.75))
+      .attr('fill', d => d.type === 'pf' ? ACCENT : (d.faded ? 'transparent' : ACCENT))
+      .attr('stroke', d => d.type === 'pf' ? ACCENT : (d.faded ? MUTE : ACCENT))
+      .attr('stroke-width', d => d.highlight ? 2.2 : (d.type === 'pf' ? 1.6 : 1));
+
+    // Labels — all nodes show labels, but styled by type and state
+    const label = labelGroup.selectAll('text').data(nodes, d => d.id);
+    label.exit().transition().duration(400).attr('opacity', 0).remove();
+    const labelEnter = label.enter().append('text')
+      .attr('font-family', "'Geist Mono', monospace")
+      .attr('font-size', d => d.type === 'pf' ? '10.5px' : '9.5px')
+      .attr('fill', INK_SOFT)
+      .attr('opacity', 0)
+      .attr('text-anchor', 'middle')
+      .attr('dy', d => -d.r - 6)
+      .text(d => d.label);
+    labelEnter.merge(label)
+      .transition().duration(500)
+      .attr('opacity', d => d.faded ? 0.25 : (d.highlight ? 1 : 0.58))
+      .attr('font-size', d => d.type === 'pf' ? '10.5px' : '9.5px')
+      .attr('font-weight', d => d.highlight ? 500 : 400)
+      .attr('fill', d => d.highlight ? ACCENT : INK_SOFT)
+      .text(d => d.label);
+
+    simulation.nodes(nodes);
+    simulation.force('link').links(links);
+    simulation.alpha(0.6).restart();
+  }
+
+  simulation.on('tick', () => {
+    linkGroup.selectAll('line')
+      .attr('x1', d => d.source.x)
+      .attr('y1', d => d.source.y)
+      .attr('x2', d => d.target.x)
+      .attr('y2', d => d.target.y);
+    nodeGroup.selectAll('circle')
+      .attr('cx', d => d.x)
+      .attr('cy', d => d.y);
+    labelGroup.selectAll('text')
+      .attr('x', d => d.x)
+      .attr('y', d => d.y);
+    annotGroup.selectAll('text.score')
+      .attr('x', d => d.x + d.r + 6)
+      .attr('y', d => d.y + 3);
+  });
+
+  render();
+
+  // ============================================================
+  // BEAT SCRIPT
+  // ============================================================
+  // 7 beats, roughly 4-5 seconds each. The full cycle is ~32s.
+  // Each beat stands alone — a viewer joining mid-loop still sees
+  // a recognizable system behavior.
+
+  let userIntent = null;           // dynamic intent node
+  let composedNode = null;         // dynamic composed promptflow
+  let simplifiedNode = null;       // dynamic simplified successor
+  let growthNodes = [];            // dynamic grown capabilities
+  let beatLabel = null;            // svg text for the current beat name
+  let scoreTexts = [];
+
+  function clearHighlights() {
+    nodes.forEach(n => { n.highlight = false; });
+    links.forEach(l => { l.active = false; });
+  }
+
+  function setBeatLabel(text) {
+    annotGroup.selectAll('text.beat-label').remove();
+    annotGroup.append('text')
+      .attr('class', 'beat-label')
+      .attr('font-family', "'Geist Mono', monospace")
+      .attr('font-size', '10px')
+      .attr('font-weight', 500)
+      .attr('fill', ACCENT)
+      .attr('opacity', 0)
+      .attr('letter-spacing', '0.18em')
+      .attr('text-transform', 'uppercase')
+      .attr('x', rightHalfAnchor() - graphRegionWidth() * 0.5 + 10)
+      .attr('y', height * 0.08)
+      .text(text.toUpperCase())
+      .transition().duration(700)
+      .attr('opacity', 0.95);
+  }
+
+  function addScoreText(nodeId, score) {
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node) return;
+    const txt = annotGroup.append('text')
+      .datum(node)
+      .attr('class', 'score')
+      .attr('font-family', "'Geist Mono', monospace")
+      .attr('font-size', '9px')
+      .attr('fill', ACCENT)
+      .attr('opacity', 0)
+      .attr('font-weight', 500)
+      .text(score)
+      .attr('x', node.x + node.r + 6)
+      .attr('y', node.y + 3);
+    txt.transition().duration(600).attr('opacity', 0.85);
+    scoreTexts.push(txt);
+  }
+
+  function clearScoreTexts() {
+    scoreTexts.forEach(t => t.transition().duration(400).attr('opacity', 0).remove());
+    scoreTexts = [];
+  }
+
+  function emitSettlement(fromId, toId, amount) {
+    const from = nodes.find(n => n.id === fromId);
+    const to = nodes.find(n => n.id === toId);
+    if (!from || !to) return;
+    const circle = settlementGroup.append('circle')
+      .attr('r', 3)
+      .attr('fill', ACCENT_SOFT)
+      .attr('opacity', 0)
+      .attr('cx', from.x)
+      .attr('cy', from.y);
+    circle.transition()
+      .duration(200).attr('opacity', 0.9)
+      .transition()
+      .duration(1600)
+      .attr('cx', to.x)
+      .attr('cy', to.y)
+      .attr('opacity', 0)
+      .remove();
+  }
+
+  const BEAT_DURATION = 4500;
+  let beatIdx = -1;
+
+  function runBeat() {
+    beatIdx = (beatIdx + 1) % 7;
+
+    switch (beatIdx) {
+      case 0: return beatFederate();
+      case 1: return beatDecompose();
+      case 2: return beatCompose();
+      case 3: return beatRank();
+      case 4: return beatSimplify();
+      case 5: return beatGrow();
+      case 6: return beatSettle();
+    }
+  }
+
+  // --- Beat 0: FEDERATION ---
+  // Reset to base state. All named nodes visible in their clusters. Light connections.
+  function beatFederate() {
+    setBeatLabel('federated graph');
+    clearHighlights();
+    clearScoreTexts();
+
+    // Clean up any dynamic nodes from prior cycles
+    if (userIntent) { nodes = nodes.filter(n => n.id !== userIntent.id); userIntent = null; }
+    if (composedNode) { nodes = nodes.filter(n => n.id !== composedNode.id); composedNode = null; }
+    if (simplifiedNode) { nodes = nodes.filter(n => n.id !== simplifiedNode.id); simplifiedNode = null; }
+    growthNodes.forEach(g => { nodes = nodes.filter(n => n.id !== g.id); });
+    growthNodes = [];
+
+    // Reset all faded states
+    nodes.forEach(n => { n.faded = false; });
+
+    // Clear decomposition links
+    links = links.filter(l => !l.decomposition && !l.ephemeral);
+
+    render();
+  }
+
+  // --- Beat 1: DECOMPOSITION ---
+  // A user intent appears. It decomposes into sub-steps that highlight matching capabilities.
+  function beatDecompose() {
+    setBeatLabel('decompose intent');
+
+    const anchor = clusterCenter('intent');
+    userIntent = {
+      id: 'intent_process_invoice',
+      type: 'intent',
+      label: '"process this invoice"',
+      r: 8,
+      highlight: true,
+      x: anchor.x, y: anchor.y,
+    };
+    nodes.push(userIntent);
+
+    // Decomposition hints to the capabilities that will handle each sub-step
+    const subSteps = ['mcp_fetch_pdf', 'pf_extract_invoice', 'agent_legal', 'model_sonnet'];
+    subSteps.forEach((id, i) => {
+      const n = nodes.find(x => x.id === id);
+      if (n) n.highlight = true;
+      links.push({
+        source: 'intent_process_invoice',
+        target: id,
+        weight: 0.6,
+        decomposition: true,
+        ephemeral: true,
+      });
+    });
+
+    render();
+  }
+
+  // --- Beat 2: COMPOSITION ---
+  // A new composed promptflow forms from multiple existing capabilities.
+  function beatCompose() {
+    setBeatLabel('compose new capability');
+
+    // Fade the decomposition lines, they've done their work
+    links.forEach(l => { if (l.decomposition) l.faded = true; });
+
+    // Create the new composed node at the PF cluster
+    const anchor = clusterCenter('pf');
+    composedNode = {
+      id: 'pf_invoice_review_v1',
+      type: 'pf',
+      label: 'invoice_review_v1.promptflow',
+      r: 8,
+      highlight: true,
+      x: anchor.x, y: anchor.y + 40,
+    };
+    nodes.push(composedNode);
+
+    // Wire it to its parts
+    ['mcp_fetch_pdf', 'pf_extract_invoice', 'agent_legal', 'model_sonnet'].forEach(id => {
+      links.push({
+        source: 'pf_invoice_review_v1',
+        target: id,
+        weight: 0.55,
+        active: true,
+        ephemeral: true,
+      });
+    });
+
+    render();
+  }
+
+  // --- Beat 3: RANK ---
+  // Executions ripple along paths. Scores appear. A challenger gets introduced.
+  function beatRank() {
+    setBeatLabel('evidence → ranking');
+
+    // Drop the intent / decomposition UI
+    if (userIntent) {
+      nodes = nodes.filter(n => n.id !== userIntent.id);
+      userIntent = null;
+    }
+    links = links.filter(l => !l.decomposition);
+
+    // Show scores on the composed path
+    addScoreText('pf_invoice_review_v1', '0.87');
+    addScoreText('pf_extract_invoice',   '0.92');
+    addScoreText('agent_legal',          '0.81');
+    addScoreText('model_sonnet',         '0.89');
+
+    // Activate the winning path
+    links.forEach(l => {
+      const s = l.source.id || l.source;
+      const t = l.target.id || l.target;
+      if (s === 'pf_invoice_review_v1' || t === 'pf_invoice_review_v1') {
+        l.active = true;
+        l.weight = 0.7;
+      }
+    });
+
+    render();
+  }
+
+  // --- Beat 4: SIMPLIFICATION ---
+  // A new single-call implementation dominates the multi-step composition.
+  function beatSimplify() {
+    setBeatLabel('simplify as models improve');
+    clearScoreTexts();
+
+    // A new simplified node appears near the old composition
+    const anchor = clusterCenter('pf');
+    simplifiedNode = {
+      id: 'pf_invoice_review_v2',
+      type: 'pf',
+      label: 'invoice_review_v2.promptflow',
+      r: 9,
+      highlight: true,
+      x: anchor.x + 60,
+      y: anchor.y + 40,
+    };
+    nodes.push(simplifiedNode);
+
+    // v2 only needs a single strong model call
+    links.push({
+      source: 'pf_invoice_review_v2',
+      target: 'model_opus',
+      weight: 0.8,
+      active: true,
+      ephemeral: true,
+    });
+
+    // Old composition + its deep deps fade to alternate (stay visible, dimmed)
+    if (composedNode) composedNode.faded = true;
+    links.forEach(l => {
+      const s = l.source.id || l.source;
+      const t = l.target.id || l.target;
+      if (s === 'pf_invoice_review_v1' || t === 'pf_invoice_review_v1') {
+        l.faded = true;
+        l.active = false;
+        l.weight = 0.12;
+      }
+    });
+
+    // Annotate the simplification with a score bump
+    addScoreText('pf_invoice_review_v2', '0.94 ▲');
+    addScoreText('pf_invoice_review_v1', '0.87 ▼');
+
+    render();
+  }
+
+  // --- Beat 5: GROW ---
+  // New users propose new capabilities, wrapping existing ones.
+  function beatGrow() {
+    setBeatLabel('graph grows organically');
+    clearScoreTexts();
+
+    // Un-highlight prior cycle
+    if (simplifiedNode) simplifiedNode.highlight = false;
+
+    // Two new capabilities join the graph
+    const growth1 = {
+      id: 'pf_invoice_compliance',
+      type: 'pf',
+      label: 'invoice_compliance.promptflow',
+      r: 7,
+      highlight: true,
+      x: rightHalfAnchor() - graphRegionWidth() * 0.18,
+      y: height * 0.78,
+    };
+    const growth2 = {
+      id: 'mcp_fraud_check',
+      type: 'mcp',
+      label: 'fraud_check.mcp',
+      r: 6,
+      highlight: true,
+      x: rightHalfAnchor() + graphRegionWidth() * 0.22,
+      y: height * 0.22,
+    };
+    nodes.push(growth1, growth2);
+    growthNodes.push(growth1, growth2);
+
+    // The new compliance wrapper builds on invoice_review_v2 + the new fraud_check
+    links.push({
+      source: 'pf_invoice_compliance',
+      target: 'pf_invoice_review_v2',
+      weight: 0.55, active: true, ephemeral: true,
+    });
+    links.push({
+      source: 'pf_invoice_compliance',
+      target: 'mcp_fraud_check',
+      weight: 0.45, active: true, ephemeral: true,
+    });
+
+    render();
+  }
+
+  // --- Beat 6: SETTLEMENT ---
+  // Value flows back along edges to every contributor.
+  function beatSettle() {
+    setBeatLabel('settlement ↔ contributors');
+
+    // Un-highlight grown nodes; they're part of the graph now
+    growthNodes.forEach(g => { g.highlight = false; });
+
+    // Emit a cascade of settlement particles from the active composed node
+    // back to the various contributors that participated.
+    const source = 'pf_invoice_compliance';
+    const recipients = [
+      'pf_invoice_review_v2', 'mcp_fraud_check', 'model_opus',
+      'pf_extract_invoice',   'agent_legal',    'mcp_fetch_pdf',
+    ];
+
+    // Multiple rounds of settlement particles during this beat
+    recipients.forEach((r, i) => {
+      setTimeout(() => emitSettlement(source, r, 1), i * 180);
+    });
+    setTimeout(() => {
+      recipients.forEach((r, i) => {
+        setTimeout(() => emitSettlement(source, r, 1), i * 180);
+      });
+    }, 1800);
+
+    render();
+  }
+
+  // Start the beat sequence
+  setTimeout(runBeat, 500);
+  setInterval(runBeat, BEAT_DURATION);
+
+  // Handle resize — reposition cluster anchors
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      width = container.clientWidth;
+      height = container.clientHeight;
+      svg.attr('viewBox', `0 0 ${width} ${height}`);
+      simulation.alpha(0.5).restart();
+    }, 200);
+  });
+})();
+</script>
+
 </body>
 </html>
