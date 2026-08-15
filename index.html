@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PromptFlow™ — A verifiable trust layer for AI workflows</title>
-<meta name="description" content="The PromptFlow™ System is a transparency and trust layer for AI workflows, tools, agents, and orchestration frameworks — providing a persistent re-usable process layer that evolves along with the underlying models in a federated remunerative ecosystem." />
-<meta property="og:title" content="PromptFlow™ — A verifiable trust layer for AI workflows" />
-<meta property="og:description" content="Federated, evidence-based, contributor-monetized. Open specification, protected system." />
+<title>PromptFlow™: A shared process layer for AI builders</title>
+<meta name="description" content="The PromptFlow™ System is a shared process layer for AI builders. Every working build shared to the platform becomes a reusable process: searchable, adaptable, and runnable from your command line." />
+<meta property="og:title" content="PromptFlow™: A shared process layer for AI builders" />
+<meta property="og:description" content="Working builds, shared by the people who made them. Search, run, adapt, and publish from your terminal. Authors earn on every reuse." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -134,11 +134,12 @@ nav ul a:hover { color: var(--accent); }
 .hero h1 {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
-  font-size: clamp(2.6rem, 6.2vw, 5.5rem);
-  line-height: 1.05;
+  font-size: min(clamp(2.6rem, 6.2vw, 5.5rem), 11.5vw);
+  line-height: 1.08;
   letter-spacing: -0.015em;
   margin-bottom: 1.8rem;
   max-width: 20ch;
+  text-wrap: balance;
 }
 .hero h1 em {
   font-style: italic;
@@ -146,7 +147,7 @@ nav ul a:hover { color: var(--accent); }
   font-weight: 400;
 }
 .hero .lede {
-  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
+  font-size: min(clamp(1.1rem, 1.4vw, 1.35rem), 4.9vw);
   color: var(--ink-soft);
   max-width: 58ch;
   margin-bottom: 3rem;
@@ -237,7 +238,8 @@ section { padding: 8rem 3rem; position: relative; }
 .section-title {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: min(clamp(2rem, 4vw, 3.2rem), 9vw);
+  text-wrap: balance;
   line-height: 1.05;
   letter-spacing: -0.02em;
   max-width: 22ch;
@@ -328,6 +330,51 @@ section { padding: 8rem 3rem; position: relative; }
   margin-bottom: auto;
 }
 
+/* -------- CLI TERMINAL -------- */
+.cli { background: var(--paper-warm); }
+.terminal {
+  margin-top: 3rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--ink);
+  overflow: hidden;
+  box-shadow: 0 20px 50px -30px rgba(26, 22, 18, 0.45);
+  max-width: 720px;
+}
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: var(--ink-soft);
+}
+.terminal-bar span {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(250, 247, 242, 0.25);
+}
+.terminal-bar em {
+  font-family: 'Geist Mono', monospace;
+  font-style: normal;
+  font-size: 0.75rem;
+  color: rgba(250, 247, 242, 0.55);
+  margin-left: 0.5rem;
+}
+.terminal pre {
+  padding: 1.4rem 1.5rem 1.6rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.terminal code {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.88rem;
+  line-height: 1.85;
+  color: var(--paper);
+}
+.terminal .t-prompt { color: var(--accent-soft); }
+.terminal .t-str { color: var(--accent-soft); }
+.terminal .t-out { color: rgba(250, 247, 242, 0.55); }
+
 /* -------- VALIDATED -------- */
 .validated {
   background: var(--ink);
@@ -370,7 +417,8 @@ section { padding: 8rem 3rem; position: relative; }
 .final-cta h2 {
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: min(clamp(2.5rem, 5vw, 4.5rem), 10vw);
+  text-wrap: balance;
   line-height: 1.05;
   letter-spacing: -0.03em;
   max-width: 22ch;
@@ -452,19 +500,24 @@ footer {
   nav { padding: 1rem 1.5rem; }
   nav ul { gap: 1.4rem; }
   nav ul a { font-size: 0.85rem; }
-  .hero { padding: 7rem 1.5rem 6rem; min-height: calc(100vh - 1rem); }
+  .hero { padding: 7rem 1.5rem 6rem; min-height: calc(100vh - 1rem); flex-direction: column; align-items: stretch; justify-content: center; }
   .hero-status {
     position: static;
     margin-top: 3rem;
     left: auto; right: auto; bottom: auto;
     font-size: 0.66rem;
     gap: 0.9rem 1.6rem;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
   }
   section { padding: 5rem 1.5rem; }
   .provides-grid { grid-template-columns: 1fr; }
   .ecosystem-list { grid-template-columns: 1fr; }
   .metrics { grid-template-columns: repeat(2, 1fr); gap: 2rem 1.5rem; }
-  .metric .value { font-size: 2.5rem; }
+  .metric .value { font-size: min(2.5rem, 10vw); }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .final-cta { padding: 6rem 1.5rem; }
 }
@@ -475,20 +528,26 @@ footer {
   /* Hide less-critical nav items on narrow mobile */
   nav ul li:nth-child(1),
   nav ul li:nth-child(2),
-  nav ul li:nth-child(3) { display: none; }
+  nav ul li:nth-child(3),
+  nav ul li:nth-child(4) { display: none; }
   .hero { padding: 6rem 1.2rem 5rem; }
   .hero-ctas { flex-direction: column; align-items: stretch; }
   .hero-ctas .btn { justify-content: center; width: 100%; }
+  .terminal { margin-top: 2rem; border-radius: 8px; }
+  .terminal pre { padding: 1rem 1.1rem 1.2rem; }
+  .terminal code { font-size: min(0.78rem, 3.6vw); line-height: 1.75; }
   .metrics { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-legal { flex-direction: column; align-items: flex-start; }
 }
 @media (max-width: 400px) {
-  .hero h1 { font-size: 2.2rem; }
-  .hero .lede { font-size: 1rem; }
+  .hero h1 { font-size: min(2.2rem, 10.5vw); }
+  .hero .lede { font-size: min(1rem, 5vw); }
   section { padding: 4rem 1.2rem; }
-  .metric .value { font-size: 2rem; }
+  .metric .value { font-size: min(2rem, 9.5vw); }
   .metrics { grid-template-columns: 1fr; }
+  .terminal code { font-size: 0.72rem; }
+  .terminal-bar em { display: none; }
 }
 
 /* Reduced motion */
@@ -504,7 +563,8 @@ footer {
   <ul>
     <li><a href="#what">What it is</a></li>
     <li><a href="#ecosystem">Ecosystem</a></li>
-    <li><a href="#validated">Validated</a></li>
+    <li><a href="#cli">CLI</a></li>
+    <li><a href="#validated">Protected</a></li>
     <li><a href="/ip.html">IP</a></li>
     <li><a href="https://github.com/promptflow/promptflow">GitHub ↗</a></li>
   </ul>
@@ -514,19 +574,19 @@ footer {
 <header class="hero">
   <svg id="graph-canvas" aria-hidden="true"></svg>
   <div class="hero-content">
-    <h1>A verifiable trust layer for <em>AI workflows, tools, agents</em>, and orchestration frameworks.</h1>
+    <h1>A shared process layer for <em>AI builders</em>.</h1>
     <p class="lede">
-      The PromptFlow™ System is a <strong>persistent re-usable process layer</strong> that evolves along with the underlying models in a <strong>federated remunerative ecosystem</strong>. It sits above MCP servers, n8n workflows, LangChain agents, hosted models, and custom pipelines — providing what they individually lack.
+      Every working build shared to the PromptFlow™ System, whether made with Claude, any other model, or a whole pipeline, becomes a <strong>reusable process</strong>: searchable, adaptable, and runnable <strong>from your command line</strong>. Create, reuse, and adapt what already works, instead of regenerating it from scratch.
     </p>
     <div class="hero-ctas">
-      <a href="https://github.com/promptflow/promptflow" class="btn btn-primary">Read the specification <span class="arrow">→</span></a>
-      <a href="#validated" class="btn btn-secondary">See the evidence <span class="arrow">→</span></a>
+      <a href="#cli" class="btn btn-primary">Get the CLI <span class="arrow">→</span></a>
+      <a href="#what" class="btn btn-secondary">How it works <span class="arrow">→</span></a>
     </div>
   </div>
   <div class="hero-status">
-    <span><span class="dot"></span>Specification v0.2 · federation extensions</span>
-    <span><a href="https://tsdr.uspto.gov/#caseNumber=97913988&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch" target="_blank" rel="noopener">Trademark · USPTO 97913988 ↗</a></span>
-    <span><a href="https://patents.google.com/patent/US20240403005A1/en?inventor=Tyler&assignee=friddle&oq=Tyler+friddle" target="_blank" rel="noopener">Patent · US 18/677,796 ↗</a></span>
+    <span><span class="dot"></span>Specification v0.2 · process graph</span>
+    <span><a href="https://tsdr.uspto.gov/#caseNumber=97913988&caseSearchType=US_APPLICATION&caseType=DEFAULT&searchType=statusSearch" target="_blank" rel="noopener">Trademark · USPTO Notice of Allowance ↗</a></span>
+    <span><a href="https://patents.google.com/patent/US20240403005A1/en?inventor=Tyler&assignee=friddle&oq=Tyler+friddle" target="_blank" rel="noopener">Patent · USPTO Notice of Allowance · priority 2023 ↗</a></span>
   </div>
 </header>
 
@@ -534,30 +594,30 @@ footer {
 <section id="what" class="provides">
   <div class="container">
     <div class="section-meta">01 / What it provides</div>
-    <h2 class="section-title">Four things the ecosystem is <em>missing</em>.</h2>
+    <h2 class="section-title">The work shouldn't disappear when the <em>chat ends</em>.</h2>
     <p class="section-lede">
-      Every AI framework claims to solve the same problems. The PromptFlow™ System doesn't compete with them — it measures them. It's the infrastructure above the substrate that makes federation actually work.
+      Most AI tools are one-shot generators: you prompt, you get an output, the work evaporates. The PromptFlow™ System persists working builds as processes in a shared graph, so the next builder starts from something proven instead of a blank prompt.
     </p>
     <div class="provides-grid">
       <div>
         <span class="num">01</span>
-        <h3>A way to distinguish which paths actually achieve an outcome under which constraints.</h3>
-        <p>Every execution produces evidence — completion rate, cost, latency, schema conformance, audit verdicts. The graph doesn't trust claims; it trusts measurement.</p>
+        <h3>A shared graph of builds that actually worked.</h3>
+        <p>Nothing enters the graph unless its author shared it. Every process carries its run history, including completion rate, cost, and reuse count, so what you find is pre-filtered by the people who built and ran it.</p>
       </div>
       <div>
         <span class="num">02</span>
-        <h3>A way to compose new capabilities rapidly from existing ones.</h3>
-        <p>Once every capability has a typed interface and measured behavior, building a new one becomes picking the right nodes and wiring them — not writing glue code.</p>
+        <h3>Command-line access to every shared build.</h3>
+        <p>Search the graph, pull a process, run it locally, and pipe its output into your own tools, all from your terminal. No browser required. The working outputs of other builders' sessions become your starting point.</p>
       </div>
       <div>
         <span class="num">03</span>
-        <h3>A mechanism for reducing process complexity as the underlying models improve.</h3>
-        <p>When a new model can do in one call what previously took five steps, the older path becomes alternate. Complexity sheds automatically. This mechanism is unique to the PromptFlow™ System.</p>
+        <h3>Adapt what exists instead of rebuilding it.</h3>
+        <p>Close but not exact? Fork a process and refine it in plain language. The system rewrites the steps while keeping what worked. Adapting a proven build is faster and more reliable than regenerating from scratch.</p>
       </div>
       <div>
         <span class="num">04</span>
-        <h3>A settlement system that pays contributors when their work is used.</h3>
-        <p>Every execution pays every party whose work contributed — the composer, the sub-process authors, the MCP operators, the eval contributors, the auditors. Proportional to contribution.</p>
+        <h3>Authors earn every time their work is reused.</h3>
+        <p>Publish a process and set your price. When others run it, fork it, or compose it into something bigger, royalties flow back to you automatically, at every layer of reuse.</p>
       </div>
     </div>
   </div>
@@ -567,9 +627,9 @@ footer {
 <section id="ecosystem">
   <div class="container">
     <div class="section-meta">02 / What sits in the graph</div>
-    <h2 class="section-title">Anything that performs AI work becomes a <em>node</em>.</h2>
+    <h2 class="section-title">Anything that performs AI work becomes a <em>process</em>.</h2>
     <p class="section-lede">
-      The graph is agnostic about implementation. MCP servers, n8n workflows, agents, hosted models, `.promptflow` files, and typed HTTP services all become addressable capabilities with the same interface, the same verification, and the same settlement treatment.
+      The graph is agnostic about how a build was made. MCP servers, n8n workflows, agents, hosted models, `.promptflow` files, and typed HTTP services all become shareable processes with the same interface, the same run history, and the same royalty treatment for their authors.
     </p>
     <div class="ecosystem-list">
       <div>
@@ -585,17 +645,17 @@ footer {
       <div>
         <span class="kind">Agents</span>
         <h4>Framework-agnostic</h4>
-        <p>LangChain, AutoGen, CrewAI, or custom — any agent with an addressable endpoint. Framework choice is invisible to the graph.</p>
+        <p>LangChain, AutoGen, CrewAI, or custom: any agent with an addressable endpoint. Framework choice is invisible to the graph.</p>
       </div>
       <div>
         <span class="kind">Hosted models</span>
         <h4>Metered pass-through</h4>
-        <p>Anthropic, OpenAI, Google, open-source — every model API is a provider type. Calls pass through at cost; settlement is metered.</p>
+        <p>Anthropic, OpenAI, Google, open source: every model API is a provider type. Calls pass through at cost; usage is metered per run.</p>
       </div>
       <div>
         <span class="kind">.promptflow files</span>
         <h4>Typed compositions</h4>
-        <p>Authored files that compose any of the above. The universal contributor path — anyone can build one without infrastructure.</p>
+        <p>Authored files that compose any of the above. The universal contributor path. Anyone can build one without infrastructure.</p>
       </div>
       <div>
         <span class="kind">HTTP services</span>
@@ -606,30 +666,51 @@ footer {
   </div>
 </section>
 
-<!-- VALIDATED -->
+<!-- CLI -->
+<section id="cli" class="cli">
+  <div class="container">
+    <div class="section-meta">03 / The interpreter</div>
+    <h2 class="section-title">Every shared build, one <em>terminal</em> away.</h2>
+    <p class="section-lede">
+      The PromptFlow™ Interpreter runs entirely from your command line. Search the shared graph, run any published process locally, adapt it to your inputs, and publish your own. Same auth, same royalty flow, no browser needed.
+    </p>
+    <div class="terminal" role="img" aria-label="Terminal session showing PromptFlow CLI commands">
+      <div class="terminal-bar"><span></span><span></span><span></span><em>promptflow · bash</em></div>
+      <pre><code><span class="t-prompt">$</span> pip install promptflow-interpreter
+<span class="t-prompt">$</span> promptflow login
+<span class="t-prompt">$</span> promptflow search <span class="t-str">"shopify listing"</span>
+<span class="t-out">  1. shopify-listing    ★4.8  $0.12/run</span>
+<span class="t-out">  2. listing-translator ★4.6  $0.08/run</span>
+<span class="t-prompt">$</span> promptflow run shopify-listing -i img.jpg
+<span class="t-prompt">$</span> promptflow publish my-process</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- PROTECTED -->
 <section id="validated" class="validated">
   <div class="container">
-    <div class="section-meta">03 / Empirical validation</div>
-    <h2 class="section-title">The design isn't just described — it's <em>validated</em>.</h2>
+    <div class="section-meta">04 / Protected and open</div>
+    <h2 class="section-title">Described in 2023. Allowed by the <em>USPTO</em> in 2026.</h2>
     <p class="section-lede">
-      Six load-bearing mechanisms validated end-to-end in a reproducible simulation with real LLM decisions: distinctness classification, autonomous graph growth via composition, ranking convergence, spot flips, simplification when newer implementations dominate older ones, and multi-party settlement with lineage royalties.
+      The process layer isn't a rebrand. The patent filed with a 2023 priority date describes exactly this: an interpreter, a shared database of processes, and reuse of what already works. Both the patent and the PromptFlow™ trademark have received Notices of Allowance from the USPTO. The specification stays open, and the reference implementations are MIT.
     </p>
     <div class="metrics">
       <div class="metric">
-        <div class="value"><em>6</em>/6</div>
-        <div class="label">Load-bearing mechanisms validated end-to-end</div>
+        <div class="value"><em>2023</em></div>
+        <div class="label">Patent priority date, before the current agent wave</div>
       </div>
       <div class="metric">
-        <div class="value"><em>30</em></div>
-        <div class="label">New capabilities autonomously composed by LLM users</div>
+        <div class="value">Allowed</div>
+        <div class="label">Patent · USPTO Notice of Allowance</div>
       </div>
       <div class="metric">
-        <div class="value"><em>307</em></div>
-        <div class="label">Settlement entries across 12 contributors in single run</div>
+        <div class="value">Allowed</div>
+        <div class="label">Trademark · USPTO Notice of Allowance</div>
       </div>
       <div class="metric">
-        <div class="value"><em>$0.60</em></div>
-        <div class="label">Total cost of the full reproducible simulation</div>
+        <div class="value"><em>MIT</em></div>
+        <div class="label">Open specification and reference implementations</div>
       </div>
     </div>
   </div>
@@ -638,9 +719,9 @@ footer {
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="container">
-    <h2>The future of AI work is <em>federated</em>. The trust layer is what makes it work.</h2>
+    <h2>Build once. <em>Everyone</em> builds faster.</h2>
     <p class="section-lede" style="max-width: 52ch; margin: 0 auto; text-align: center;">
-      The specification is open. The reference implementations are MIT. The trademark and system are protected. The graph is meant to be owned by the people who build it.
+      The specification is open. The reference implementations are MIT. The system is patent-allowed and the mark is protected. The graph is meant to be owned by the people who build it.
     </p>
     <div class="cta-ctas">
       <a href="https://github.com/promptflow/promptflow" class="btn btn-primary">Read the specification <span class="arrow">→</span></a>
@@ -654,7 +735,7 @@ footer {
   <div class="footer-grid">
     <div class="footer-brand">
       <h3>PromptFlow<sup>™</sup></h3>
-      <p>A verifiable trust layer for AI workflows, tools, agents, and orchestration frameworks. Open specification, federated graph, protected system.</p>
+      <p>A shared process layer for AI builders. Working builds, shared by the people who made them. Searchable, adaptable, and runnable from your command line.</p>
     </div>
     <div>
       <h5>Specification</h5>
@@ -662,7 +743,7 @@ footer {
         <li><a href="https://github.com/promptflow/promptflow">GitHub repository</a></li>
         <li><a href="https://github.com/promptflow/promptflow/blob/main/spec/PROMPTFLOW.md">File format spec</a></li>
         <li><a href="https://github.com/promptflow/promptflow/blob/main/spec/PROVIDERS.md">Providers spec</a></li>
-        <li><a href="https://github.com/promptflow/promptflow/blob/main/docs/VALIDATION.md">Validation results</a></li>
+        <li><a href="https://patents.google.com/patent/US20240403005A1/en" target="_blank" rel="noopener">Patent record</a></li>
       </ul>
     </div>
     <div>
@@ -686,7 +767,7 @@ footer {
   </div>
   <div class="footer-legal">
     <span>© PromptFlow Technologies LLC · 2026</span>
-    <span>PromptFlow™ · USPTO Notice of Allowance · IC 009 / IC 042</span>
+    <span>PromptFlow™ · Patent &amp; Trademark · USPTO Notices of Allowance · IC 009 / IC 042</span>
   </div>
 </footer>
 
@@ -1006,7 +1087,7 @@ window.addEventListener('scroll', () => {
   // --- Beat 0: FEDERATION ---
   // Reset to base state. All named nodes visible in their clusters. Light connections.
   function beatFederate() {
-    setBeatLabel('federated graph');
+    setBeatLabel('the shared process graph');
     clearHighlights();
     clearScoreTexts();
 
@@ -1096,7 +1177,7 @@ window.addEventListener('scroll', () => {
   // --- Beat 3: RANK ---
   // Executions ripple along paths. Scores appear. A challenger gets introduced.
   function beatRank() {
-    setBeatLabel('evidence → ranking');
+    setBeatLabel('proven builds → ranking');
 
     // Drop the intent / decomposition UI
     if (userIntent) {
@@ -1220,7 +1301,7 @@ window.addEventListener('scroll', () => {
   // --- Beat 6: SETTLEMENT ---
   // Value flows back along edges to every contributor.
   function beatSettle() {
-    setBeatLabel('settlement ↔ contributors');
+    setBeatLabel('royalties → authors');
 
     // Un-highlight grown nodes; they're part of the graph now
     growthNodes.forEach(g => { g.highlight = false; });
